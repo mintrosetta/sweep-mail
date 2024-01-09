@@ -33,7 +33,9 @@ namespace SendMail.Services
                 .Or(SearchQuery.SubjectContains("re:"))
                 .Or(SearchQuery.SubjectContains("ตอบกลับ:"))
                 .And(SearchQuery.SubjectContains("ขอตรวจสอบยอดเงินลูกค้า"))
-            );;
+            );
+
+            // เพิ่มเงื่อนไขว่าให้ search แค่เมลที่เรายังไม่ได้อ่าน
 
             // สร้าง email track instance สำหรับจัดเก็บผลลัพธ์
             List<ResponseEmailTrack> emailTracks = new List<ResponseEmailTrack>();
@@ -57,6 +59,9 @@ namespace SendMail.Services
                     Amount = this.FilterAmountFromText(replyMessage)
                 });
             }
+
+            // ปรับสถานะเมลทั้งหมดที่เราถืออยู่เป็นอ่านแล้ว
+            // -> 
 
             // ยกเลิกการเชื่อมต่อกับ imap gmail
             await client.DisconnectAsync(true);
